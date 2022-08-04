@@ -31,7 +31,7 @@ const App = () => {
               Randomize Color:{" "}
               <span>{`${colorsGroup.map((element) => {
                 return `${[element]}`;
-              })})`}</span>
+              })}`}</span>
             </button>
           </div>
         </div>
