@@ -1,41 +1,72 @@
 import { useEffect, useState } from "react";
 import getColorRandomizer from "./helpers/getColorRandomizer";
+import OptionsView from "./components/OptionsView";
+import ColorScreen from "./components/ColorScreen";
 
 const App = () => {
-  const [colorsGroup, setColorsGroup] = useState([0, 0, 0]);
+  const [colorsGroup, setColorsGroup] = useState(null);
+  const [option, setOption] = useState(null);
+  let timer = 5000;
+  let timerId = 0;
 
-  const handleClick = () => {
-    getColorRandomizer(3).then((elements) => setColorsGroup(elements));
-    document.getElementById(
-      "colorScreen"
-    ).style.backgroundColor = `rgb(${colorsGroup[0]},${colorsGroup[1]},${colorsGroup[2]})`;
+  const colorChanger = async () => {
+    const colors = await getColorRandomizer(4);
+    setColorsGroup(colors);
   };
+
+  const timerColorChanger = () => {
+    timerId = setInterval(colorChanger, timer);
+  };
+
+  switch (option) {
+    case "randomizeButton":
+      timerColorChanger();
+      clearInterval(timerId);
+      break;
+    case "changerButton":
+      colorChanger();
+      setOption(null);
+      break;
+    case "sinButton":
+      console.log("clicked");
+      break;
+  }
 
   return (
     <>
-      <div
-        className="flex content-center justify-center absolute z-0 w-full h-full transition-colors"
-        id="colorScreen"
-      >
-        <div className="mx-auto my-auto bg-gray-100 rounded-xl box-border">
-          <div className="p-2">
+      <ColorScreen red={colorsGroup ? colorsGroup[0] : 255} blue={colorsGroup ? colorsGroup[1] : 255} green={colorsGroup ? colorsGroup[2] : 255} alpha={1}>
+        <div className="w-auto mx-auto my-auto bg-gray-300 rounded-xl box-border p-2">
+          <div className="w-auto p-2">
             <h1 className="text-9xl font-extrabold hover:text-cyan-500">
               Color Pool
             </h1>
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-around">
             <button
-              onClick={handleClick}
+              onClick={(e) => setOption(e.target.id)}
               className="bg-transparent hover:bg-black text-black font-bold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded transition-colors"
+              id="randomizeButton"
             >
-              Randomize Color:{" "}
-              <span>{`${colorsGroup.map((element) => {
-                return `${[element]}`;
-              })}`}</span>
+              Randomize Colors
+            </button>
+            <button
+              onClick={(e) => setOption(e.target.id)}
+              className="bg-transparent hover:bg-black text-black font-bold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded transition-colors"
+              id="changerButton"
+            >
+              Button Changer
+            </button>
+            <button
+              onClick={(e) => setOption(e.target.id)}
+              className="bg-transparent hover:bg-black text-black font-bold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded transition-colors"
+              id="sinButton"
+            >
+              Sin(Function)
             </button>
           </div>
+          {option === "sinButton" && <OptionsView />}
         </div>
-      </div>
+      </ColorScreen>
     </>
   );
 };
