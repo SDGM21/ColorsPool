@@ -24,7 +24,7 @@ const App = () => {
       clearInterval(timerId);
       break;
     case "changerButton":
-      colorChanger();
+      colorChanger().then();
       setOption(null);
       break;
     case "sinButton":
