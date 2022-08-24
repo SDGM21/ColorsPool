@@ -1,72 +1,58 @@
 import { useEffect, useState } from "react";
 import getColorRandomizer from "./helpers/getColorRandomizer";
-import OptionsView from "./components/OptionsView";
-import ColorScreen from "./components/ColorScreen";
 
 const App = () => {
-  const [colorsGroup, setColorsGroup] = useState(null);
-  const [option, setOption] = useState(null);
-  let timer = 5000;
-  let timerId = 0;
+  const [bgColor, setBgColor] = useState({
+    red: 0,
+    blue: 0,
+    green: 0,
+    alpha: 0,
+  });
 
-  const colorChanger = async () => {
-    const colors = await getColorRandomizer(4);
-    setColorsGroup(colors);
-  };
-
-  const timerColorChanger = () => {
-    timerId = setInterval(colorChanger, timer);
-  };
-
-  switch (option) {
-    case "randomizeButton":
-      timerColorChanger();
-      clearInterval(timerId);
-      break;
-    case "changerButton":
-      colorChanger().then();
-      setOption(null);
-      break;
-    case "sinButton":
-      console.log("clicked");
-      break;
+  async function handleClick(e) {
+    if (document.body.classList.contains("Random")) {
+      document.body.classList.remove("Random");
+    }
+    let colors = await getColorRandomizer(3);
+    setBgColor({ ...colors });
   }
+
+  function poolerColor(e) {
+    document.body.classList.add("Random");
+  }
+
+  useEffect(() => {
+    let { red, blue, green, alpha } = bgColor;
+    document.body.style.backgroundColor = `rgba(${red},${blue},${green},${alpha})`;
+  }, [{ ...bgColor }]);
 
   return (
     <>
-      <ColorScreen red={colorsGroup ? colorsGroup[0] : 255} blue={colorsGroup ? colorsGroup[1] : 255} green={colorsGroup ? colorsGroup[2] : 255} alpha={1}>
-        <div className="w-auto mx-auto my-auto bg-gray-300 rounded-xl box-border p-2">
-          <div className="w-auto p-2">
-            <h1 className="text-9xl font-extrabold hover:text-cyan-500">
-              Color Pool
-            </h1>
-          </div>
-          <div className="flex justify-around">
-            <button
-              onClick={(e) => setOption(e.target.id)}
-              className="bg-transparent hover:bg-black text-black font-bold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded transition-colors"
-              id="randomizeButton"
-            >
-              Randomize Colors
-            </button>
-            <button
-              onClick={(e) => setOption(e.target.id)}
-              className="bg-transparent hover:bg-black text-black font-bold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded transition-colors"
-              id="changerButton"
-            >
-              Button Changer
-            </button>
-            <button
-              onClick={(e) => setOption(e.target.id)}
-              className="bg-transparent hover:bg-black text-black font-bold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded transition-colors"
-              id="sinButton"
-            >
-              Sin(Function)
-            </button>
-          </div>
-          {option === "sinButton" && <OptionsView />}
+      <div className="border-box bg-gray-200 mx-auto my-auto p-4 rounded-xl">
+        <div>
+          <h1 className="sm:text-4xl lg:text-8xl xl:text-12xl font-extrabold">
+            Color Pool
+          </h1>
+          <h2>
+            Actual Background: RED({bgColor.red}) - BLUE({bgColor.blue}) -
+            GREEN({bgColor.green}) - ALPHA({bgColor.alpha})
+          </h2>
         </div>
-      </ColorScreen>
+        <div id="buttonsArea" className="flex justify-center text-white">
+          <button
+            onClick={handleClick}
+            className="w-1/2 border-transparent bg-gray-500 m-2 p-2 rounded-2xl hover:bg-black hover:transition-all hover:rounded-lg"
+          >
+            Change Actual Color
+          </button>
+          <button
+            onClick={poolerColor}
+            className="w-1/2 border-transparent bg-gray-500 m-2 p-2 rounded-2xl  hover:bg-black hover:transition-all hover:rounded-lg"
+          >
+            Pooler
+          </button>
+        </div>
+      </div>
     </>
   );
 };
