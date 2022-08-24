@@ -1,7 +1,7 @@
 {
   "name": "color_pool",
   "private": false,
-  "version": "0.0.0",
+  "version": "1.0",
   "type": "module",
   "homepage": "https://SDGM21.github.io/ColorsPool",
   "scripts": {

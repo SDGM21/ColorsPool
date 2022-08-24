@@ -33,7 +33,7 @@ const App = () => {
     <>
       <div className="border-box bg-gray-200 mx-auto my-auto p-4 rounded-xl">
         <div>
-          <h1 className="sm:text-4xl lg:text-8xl xl:text-12xl font-extrabold">
+          <h1 className="text-center text-6xl lg:text-8xl font-extrabold">
             Color Pool
           </h1>
           <h2>

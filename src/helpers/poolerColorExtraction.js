@@ -3,8 +3,9 @@ import getColorRandomizer from "./getColorRandomizer";
 const poolerColorExtraction = ({ option }) => {
   if (option === 1) {
     let colorsGroup = [];
-
-    for (let index = 0; index < Math.floor(Math.random() * 5); index++) {
+    // let randValues = new Uint8Array(1);
+    // console.log(window.crypto.getRandomValues(randValues))
+    for (let index = 0; index < Math.floor(Math.random() * 5) + 2; index++) {
       let { red, blue, green, alpha } = getColorRandomizer(3);
       colorsGroup.push(`rgba(${red}, ${blue}, ${green}, ${alpha})`);
     }
