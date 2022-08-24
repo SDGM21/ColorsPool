@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import getColorRandomizer from "./helpers/getColorRandomizer";
 
 const App = () => {
+  const [activated, setActivated] = useState(false);
   const [bgColor, setBgColor] = useState({
     red: 0,
     blue: 0,
@@ -18,7 +19,8 @@ const App = () => {
   }
 
   function poolerColor(e) {
-    document.body.classList.add("Random");
+    document.body.classList.toggle("Random");
+    setActivated(!activated);
   }
 
   useEffect(() => {
@@ -49,7 +51,13 @@ const App = () => {
             onClick={poolerColor}
             className="w-1/2 border-transparent bg-gray-500 m-2 p-2 rounded-2xl  hover:bg-black hover:transition-all hover:rounded-lg"
           >
-            Pooler
+            {activated && (
+              <svg
+                className="animate-spin h-5 w-5 mr-3"
+                viewBox="0 0 24 24"
+              ></svg>
+            )}
+            Pooler: {activated.toString()}
           </button>
         </div>
       </div>
