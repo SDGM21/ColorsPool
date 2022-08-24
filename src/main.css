@@ -14,12 +14,11 @@
 body {
   font: 14px "Century Gothic", Futura, sans-serif;
   margin: 0px;
-  transition:1s ease-in;
+  transition: 1s ease;
 }
 .Random {
-  background: linear-gradient(90deg, #8c1c1c, #111111, rgb(2, 40, 206));
   background-size: 400% 400%;
-  animation: AnimationName 10s ease-in infinite;
+  animation: AnimationName 15s ease-in-out infinite;
 }
 
 @keyframes AnimationName {

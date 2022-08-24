@@ -1,32 +1,33 @@
 import { useEffect, useState } from "react";
 import getColorRandomizer from "./helpers/getColorRandomizer";
+import poolerColorExtraction from "./helpers/poolerColorExtraction";
 
 const App = () => {
   const [activated, setActivated] = useState(false);
-  const [bgColor, setBgColor] = useState({
-    red: 0,
-    blue: 0,
-    green: 0,
-    alpha: 0,
-  });
+  const [bgColor, setBgColor] = useState({ ...getColorRandomizer(3) });
 
-  async function handleClick(e) {
+  function handleClick(e) {
     if (document.body.classList.contains("Random")) {
       document.body.classList.remove("Random");
+      document.body.style.cssText = poolerColorExtraction({ option: 2 });
+      setActivated(!activated);
     }
-    let colors = await getColorRandomizer(3);
+    let colors = getColorRandomizer(3);
     setBgColor({ ...colors });
   }
 
   function poolerColor(e) {
-    document.body.classList.toggle("Random");
     setActivated(!activated);
+    document.body.classList.toggle("Random");
+    document.body.style.cssText = poolerColorExtraction({
+      option: activated ? 2 : 1,
+    });
   }
 
   useEffect(() => {
     let { red, blue, green, alpha } = bgColor;
     document.body.style.backgroundColor = `rgba(${red},${blue},${green},${alpha})`;
-  }, [{ ...bgColor }]);
+  }, [bgColor]);
 
   return (
     <>
@@ -47,9 +48,10 @@ const App = () => {
           >
             Change Actual Color
           </button>
+
           <button
             onClick={poolerColor}
-            className="w-1/2 border-transparent bg-gray-500 m-2 p-2 rounded-2xl  hover:bg-black hover:transition-all hover:rounded-lg"
+            className="w-1/2 border-transparent bg-gray-500 m-2 p-2 rounded-2xl flex justify-center items-center content-center hover:bg-black hover:transition-all hover:rounded-lg"
           >
             {activated && (
               <svg

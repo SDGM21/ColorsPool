@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-const getColorRandomizer = async (objAmount) => {
+const getColorRandomizer = (objAmount) => {
   const objList = { red:0, blue:0, green:0, alpha: 1 };
 
   for (let index = 0; index < objAmount; index++) {
